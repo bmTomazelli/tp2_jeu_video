@@ -39,7 +39,6 @@ public class Character : MonoBehaviour, IDestination
 
     [Header("Movement")]
     [SerializeField, Min(0)] private float destinationReachedDistance = 0.5f;
-    [SerializeField] private Vector3 initialDestination;
 
     private GameController gameController;
     private CharacterStateMachine stateMachine;
@@ -70,19 +69,8 @@ public class Character : MonoBehaviour, IDestination
         renderers = GetComponentsInChildren<Renderer>();
 
         // Init starting position.
-        // TODO : Placer le personnage à un endroit aléatoire.
-    }
-
-    // TODO : Enlever la méthode Start. Ce n'est que pour la courte démo quand vous partez le jeu la première fois.
-    //        Enlever aussi le [SerializedField] "initialDestination" par la même occasion.
-    private IEnumerator Start()
-    {
-        // Move.
-        navMeshAgent.SetDestination(initialDestination);
-        yield return new WaitUntil(() => Vector3.Distance(transform.position, initialDestination) < destinationReachedDistance);
-        
-        // Greet.
-        characterAnimation.PlayGreetAnimation();
+        var spawnPoint = ArrayExtensions.Random(Finder.GameController.CityObjects.CharacterSpawnPoints);
+        transform.position = spawnPoint.Position;
     }
 
     public void NavigateTo(IDestination destination)
