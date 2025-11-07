@@ -11,28 +11,32 @@ public class CharacterSensor : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        var trash = GetComponent<Trash>();
+        var friend = other.GetComponent<Character>();
+
         var trashBehavior = character.StateMachine.TrashBehaviour;
         var friends = character.Blackboard.Friends;
-        if (other.GetComponent<Trash>() != null && trashBehavior == CityCharacterTrashBehaviour.PickUp)
+
+        if (trash != null && trashBehavior == CityCharacterTrashBehaviour.PickUp)
         {
-            var trash = other.GetComponent<Trash>();
             character.Blackboard.LastSeenTrash = trash;
         }
-        
-        else if(other.GetComponent<Character>() != null && friends.Contains(other.GetComponent<Character>()))
+        else if(friend != null && friends.Contains(friend))
         {
-            var friend = other.GetComponent<Character>();
             character.Blackboard.LastSeenFriend = friend;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<Trash>() != null && character.Blackboard.LastSeenTrash != null)
+        var trash = GetComponent<Trash>();
+        var friend = other.GetComponent<Character>();
+
+        if (character.Blackboard.LastSeenTrash == trash)
         {
             character.Blackboard.LastSeenTrash = null;
         }
-        else if (other.GetComponent<Character>() != null && character.Blackboard.LastSeenFriend != null)
+        else if (character.Blackboard.LastSeenFriend == friend)
         {
             character.Blackboard.LastSeenFriend = null;
         }
