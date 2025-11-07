@@ -25,11 +25,13 @@ public class CharacterBlackboard : MonoBehaviour
     
     [Header("Memory")]
     [field:SerializeField] public bool ShouldThrowTrash { get; set; }
-    
+    [field: SerializeField] public Trash LastSeenTrash { get; set; }
+    [field: SerializeField] public Character LastSeenFriend { get; set; }
+
     // TODO : Ajouter ici les autres éléments à conserver en mémoire.
     //        Notez que la syntaxe est légèrement différente de ce que vous avez été habitué : il y a un "field:" devant
     //        le nom de l'annotation [SerializeField]. C'est pour gérer correctement les propriétés C# avec Unity.
-    
+
     private GameController gameController;
     
     // Initialization.
