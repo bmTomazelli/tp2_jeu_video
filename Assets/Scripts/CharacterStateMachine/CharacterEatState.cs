@@ -7,16 +7,19 @@ public class CharacterEatState : ICharacterState
     public CharacterEatState(Character character)
     {
         this.character = character;
+        restaurant = ArrayExtensions.Random(character.Blackboard.FoodBuildings);
     }
 
     public void Enter()
     {
-        restaurant = ArrayExtensions.Random(character.Blackboard.FoodBuildings);
+        
     }
 
     public void Update()
     {
-        if(character.IsCloseTo(restaurant))
+        
+
+        if (character.IsCloseTo(restaurant))
         {
             character.MakeInvisible();
             character.Vitals.LowerHunger();
@@ -25,6 +28,7 @@ public class CharacterEatState : ICharacterState
             {
                 character.MakeVisible();
                 character.StateMachine.PopState();
+                character.StateMachine.PushState(new CharacterThrowTrashState(character));
             }
 
             return;
@@ -39,6 +43,5 @@ public class CharacterEatState : ICharacterState
 
     public void Exit()
     {
-        character.CancelNavigate();
     }
 }

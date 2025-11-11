@@ -163,7 +163,7 @@ public class Character : MonoBehaviour, IDestination
     }
 
     public bool IsThrowingTrash()
-    {
+    {   
         return characterAnimation.IsPlayingThrowAnimation();
     }
 

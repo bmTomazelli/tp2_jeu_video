@@ -105,8 +105,14 @@ public class HudController : MonoBehaviour
 
     private Color VitalColor(float vital)
     {
-        if (vital < vitalGreenLimit) return Color.green;
-        if (vital < vitalYellowLimit) return Color.yellow;
-        return Color.red;
+        if (vital > vitalYellowLimit)
+        {
+            return Color.red;
+        }
+        else if (vital > vitalGreenLimit) 
+        { 
+            return Color.yellowNice; 
+        }
+        return Color.green;
     }
 }

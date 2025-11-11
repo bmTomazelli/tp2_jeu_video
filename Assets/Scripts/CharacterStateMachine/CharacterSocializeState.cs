@@ -1,11 +1,11 @@
 ﻿public class CharacterSocializeState : ICharacterState
 {
     private readonly Character character;
-    private readonly Character friend;
-    public CharacterSocializeState(Character friend, Character character)
+    private  Building bar;
+    public CharacterSocializeState(Character character)
     {
         this.character = character;
-        this.friend = friend;
+        this.bar= ArrayExtensions.Random(character.Blackboard.SocialBuildings);
     }
 
     public void Enter()
@@ -15,19 +15,23 @@
 
     public void Update()
     {
-        if (!character.IsCloseTo(friend))
+        if (character.IsCloseTo(bar))
         {
-            character.StateMachine.PushState(new CharacterTravelState(friend, character));
-            return;
-        }
-        else
-        {
+            character.MakeInvisible();
             character.Vitals.LowerLoneliness();
-            if (!character.IsGreetingCharacter())
+
+            if (character.Vitals.IsLonelinessBellowTarget)
             {
-                character.GreetCharacter(friend);
+                character.MakeVisible();
                 character.StateMachine.PopState();
             }
+
+            return;
+        }
+
+        else
+        {
+            character.StateMachine.PushState(new CharacterTravelState(bar, character));
             return;
         }
     }

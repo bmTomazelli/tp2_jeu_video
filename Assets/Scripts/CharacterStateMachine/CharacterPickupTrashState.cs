@@ -1,4 +1,6 @@
-﻿internal class CharacterPickupTrashState : ICharacterState
+﻿using UnityEngine;
+
+internal class CharacterPickupTrashState : ICharacterState
 {
     private readonly Trash trash;
     private readonly Character character;
@@ -13,13 +15,26 @@
 
     }
 
+    public void Update()
+    {
+        if (!character.IsPickingTrash())
+        {
+            character.PickUpTrash(trash);
+            return;
+        }
+
+        else
+        {
+            character.StateMachine.PopState();
+            return;
+        }
+        
+    }
+
     public void Exit()
     {
 
     }
 
-    public void Update()
-    {
 
-    }
 }

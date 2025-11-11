@@ -1,9 +1,12 @@
 ﻿using Unity.VisualScripting;
+using UnityEngine;
 
 public class CharacterTravelState : ICharacterState
 {
     private readonly IDestination destination;
     private readonly Character character;
+    private float lastGreetTime= 0f;
+    private float canGreetAfter = 10f;
     public CharacterTravelState(IDestination destination, Character character)
     {
         this.destination = destination;
@@ -17,6 +20,7 @@ public class CharacterTravelState : ICharacterState
 
     public void Update()
     {
+        lastGreetTime += Time.deltaTime;
         var trash = character.Blackboard.LastSeenTrash;
 
         character.Vitals.RaiseHunger();
@@ -27,11 +31,22 @@ public class CharacterTravelState : ICharacterState
         { 
             character.NavigateTo(destination);
 
-            if (character.StateMachine.TrashBehaviour == CityCharacterTrashBehaviour.Throw && trash != null)
+            if (character.StateMachine.TrashBehaviour == CityCharacterTrashBehaviour.PickUp && trash != null)
             {
                 character.StateMachine.PushState(new CharacterPickupTrashState(trash, character));
             }
+
+            if (character.Blackboard.LastSeenFriend != null)
+            {
+                if(lastGreetTime >= canGreetAfter)
+                {
+                    lastGreetTime = 0f;
+                    character.StateMachine.PushState(new CharacterGreetingState(character));
+                    return;
+                }
+            }
             return;
+
         }
         
         else

@@ -13,7 +13,8 @@
 
     public void Update()
     {
-        if (!character.IsThrowingTrash())
+        var trashBehavior = character.StateMachine.TrashBehaviour;
+        if (!character.IsThrowingTrash() && trashBehavior == CityCharacterTrashBehaviour.Throw)
         {
             character.ThrowTrash();
             return;

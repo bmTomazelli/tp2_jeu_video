@@ -50,7 +50,7 @@ public class CharacterWorkState : ICharacterState
             var friend = character.Blackboard.LastSeenFriend;
             if (friend != null)
             {
-                character.StateMachine.PushState(new CharacterSocializeState(friend, character));
+                character.StateMachine.PushState(new CharacterSocializeState(character));
                 return;
             }
         }
