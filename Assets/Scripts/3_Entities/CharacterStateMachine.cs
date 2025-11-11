@@ -34,7 +34,7 @@ public class CharacterStateMachine : MonoBehaviour
 
         // Init state machine.
         stateStack = new Stack<ICharacterState>();
-        stateStack.Push(new CharacterWorkState());
+        stateStack.Push(new CharacterWorkState(character));
     }
     private void Start()
     {
@@ -66,7 +66,9 @@ public class CharacterStateMachine : MonoBehaviour
 
     private void UpdateStateMachine()
     {
-        // TODO : Mettre à jour la machine à état.
+        stateStack.Peek().Update();
+
+        if (stateStack.Count == 0) return;
     }
 
     public void PushState(ICharacterState state)

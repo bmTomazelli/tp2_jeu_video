@@ -19,8 +19,8 @@ public class HudController : MonoBehaviour
     [SerializeField] private Image sleepinessFill;
 
     [Header("UI- Limit color bar change")]
-    [SerializeField] private float vitalGreenLimit = 0.4f;
-    [SerializeField] private float vitalYellowLimit = 0.15f;
+    [SerializeField] private float vitalGreenLimit = 0.15f;
+    [SerializeField] private float vitalYellowLimit = 0.60f;
 
     private Character[] characters;
     private int index;
@@ -105,8 +105,8 @@ public class HudController : MonoBehaviour
 
     private Color VitalColor(float vital)
     {
-        if (vital > vitalGreenLimit) return Color.green;
-        if (vital > vitalYellowLimit) return Color.yellow;
+        if (vital < vitalGreenLimit) return Color.green;
+        if (vital < vitalYellowLimit) return Color.yellow;
         return Color.red;
     }
 }
