@@ -18,6 +18,10 @@ public class HudController : MonoBehaviour
     [SerializeField] private Image socializeFill;
     [SerializeField] private Image sleepinessFill;
 
+    [Header("UI- Limit color bar change")]
+    [SerializeField] private float vitalGreenLimit = 0.15f;
+    [SerializeField] private float vitalYellowLimit = 0.60f;
+
     private Character[] characters;
     private int index;
     private Character current;
@@ -33,7 +37,7 @@ public class HudController : MonoBehaviour
             return;
         }
 
-        index = Mathf.Clamp(index, 0, characters.Length - 1);
+        index = 0;
         Bind(index);
     }
 
@@ -46,8 +50,14 @@ public class HudController : MonoBehaviour
         UpdateVitals();
     }
 
-    private int PrevIndex() => (index - 1 + characters.Length) % characters.Length;
-    private int NextIndex() => (index + 1) % characters.Length;
+    private int PrevIndex()
+    {
+        return (index - 1 + characters.Length) % characters.Length;
+    }
+    private int NextIndex() 
+    { 
+        return (index + 1) % characters.Length; 
+    }
 
     private void Bind(int newIndex)
     {
@@ -80,23 +90,30 @@ public class HudController : MonoBehaviour
     {
         if (!current || !currentVitals) return;
 
-        float h = Mathf.Clamp01(currentVitals.Hunger / 100f);
-        float l = Mathf.Clamp01(currentVitals.Loneliness / 100f);
-        float s = Mathf.Clamp01(currentVitals.Sleepiness / 100f);
+        float hungry = currentVitals.Hunger / 100f;
+        float loneliness = currentVitals.Loneliness / 100f;
+        float sleepiness = currentVitals.Sleepiness / 100f;
 
-        if (hungryBar) hungryBar.size = h;
-        if (socializeBar) socializeBar.size = l;
-        if (sleepinessBar) sleepinessBar.size = s;
+        if (hungryBar) hungryBar.size = hungry;
+        if (socializeBar) socializeBar.size = loneliness;
+        if (sleepinessBar) sleepinessBar.size = sleepiness;
 
-        if (hungryFill) hungryFill.color = VitalColor(h);
-        if (socializeFill) socializeFill.color = VitalColor(l);
-        if (sleepinessFill) sleepinessFill.color = VitalColor(s);
+        if (hungryFill) hungryFill.color = VitalColor(hungry);
+        if (socializeFill) socializeFill.color = VitalColor(loneliness);
+        if (sleepinessFill) sleepinessFill.color = VitalColor(sleepiness);
     }
 
-    private Color VitalColor(float v)
+    private Color VitalColor(float vital)
     {
-        if (v > 0.40f) return Color.green;
-        if (v > 0.15f) return Color.yellow;
-        return Color.red;
+        
+        if (vital > vitalYellowLimit)
+            return Color.red;
+
+        
+        if (vital > vitalGreenLimit)
+            return Color.yellowNice;
+
+        
+        return Color.green;
     }
 }

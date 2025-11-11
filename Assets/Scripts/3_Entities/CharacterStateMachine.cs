@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 //
 // Il s'agit de la classe dans laquelle vous allez implémenter la machine à état. Vous aurez tout particulièrement à
@@ -18,8 +19,9 @@ public class CharacterStateMachine : MonoBehaviour
 
     private Character character;
     private float throwTrashCheckTimer;
+    private Stack<ICharacterState> stateStack;
 
-    public string CurrentStateName => "None";
+    public string CurrentStateName { get; set; }
     public CityCharacterTrashBehaviour TrashBehaviour => trashBehaviour;
 
     private void Awake()
@@ -29,9 +31,14 @@ public class CharacterStateMachine : MonoBehaviour
 
         // Init timers.
         throwTrashCheckTimer = 0;
-
+        
         // Init state machine.
-        // TODO : Initialiser la pile d'états.
+        stateStack = new Stack<ICharacterState>();
+        stateStack.Push(new CharacterWorkState(character));
+    }
+    private void Start()
+    {
+        stateStack.Peek().Enter();
     }
 
     private void Update()
@@ -59,10 +66,24 @@ public class CharacterStateMachine : MonoBehaviour
 
     private void UpdateStateMachine()
     {
-        // TODO : Mettre à jour la machine à état.
+        stateStack.Peek().Update();
+
+        if (stateStack.Count == 0) return;
     }
-    
-    // TODO : Prévoir des méthodes "Push" et "Pop" pour ajouter et enlever des états. Ce sera utile pour la suite.
+
+    public void PushState(ICharacterState state)
+    {
+        stateStack.Peek().Exit();
+        stateStack.Push(state);
+        stateStack.Peek().Enter();
+    }
+
+    public void PopState()
+    {
+        stateStack.Peek().Exit();
+        stateStack.Pop();
+        stateStack.Peek().Enter();
+    }
 }
 
 public enum CityCharacterTrashBehaviour

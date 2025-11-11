@@ -11507,8 +11507,8 @@ MonoBehaviour:
   hungryFill: {fileID: 482766653}
   socializeFill: {fileID: 964881066}
   sleepinessFill: {fileID: 145711129}
-  vitalGreenLimit: 0.15
-  vitalYellowLimit: 0.4
+  vitalGreenLimit: 0.4
+  vitalYellowLimit: 0.15
 --- !u!1001 &1208434464
 PrefabInstance:
   m_ObjectHideFlags: 0
