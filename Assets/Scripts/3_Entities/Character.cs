@@ -163,7 +163,7 @@ public class Character : MonoBehaviour, IDestination
     }
 
     public bool IsThrowingTrash()
-    {
+    {   
         return characterAnimation.IsPlayingThrowAnimation();
     }
 
@@ -184,8 +184,7 @@ public class Character : MonoBehaviour, IDestination
             yield return new WaitUntil(() => !characterAnimation.IsPlayingThrowAnimation());
 
             // Remove friend from memory.
-            // TODO : Enlevez l'ami salué de la mémoire du personnage. Par exemple :
-            //      blackboard.Friend = null;
+            
         }
 
         StartCoroutine(Routine());
