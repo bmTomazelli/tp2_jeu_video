@@ -21,7 +21,7 @@ public class CharacterStateMachine : MonoBehaviour
     private float throwTrashCheckTimer;
     private Stack<ICharacterState> stateStack;
 
-    public string CurrentStateName => "None";
+    public string CurrentStateName { get; set; }
     public CityCharacterTrashBehaviour TrashBehaviour => trashBehaviour;
 
     private void Awake()
@@ -31,7 +31,7 @@ public class CharacterStateMachine : MonoBehaviour
 
         // Init timers.
         throwTrashCheckTimer = 0;
-
+        
         // Init state machine.
         stateStack = new Stack<ICharacterState>();
         stateStack.Push(new CharacterWorkState(character));

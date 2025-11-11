@@ -90,9 +90,9 @@ public class HudController : MonoBehaviour
     {
         if (!current || !currentVitals) return;
 
-        float hungry = Mathf.Clamp01(currentVitals.Hunger / 100f);
-        float loneliness = Mathf.Clamp01(currentVitals.Loneliness / 100f);
-        float sleepiness = Mathf.Clamp01(currentVitals.Sleepiness / 100f);
+        float hungry = currentVitals.Hunger / 100f;
+        float loneliness = currentVitals.Loneliness / 100f;
+        float sleepiness = currentVitals.Sleepiness / 100f;
 
         if (hungryBar) hungryBar.size = hungry;
         if (socializeBar) socializeBar.size = loneliness;
@@ -105,14 +105,15 @@ public class HudController : MonoBehaviour
 
     private Color VitalColor(float vital)
     {
+        
         if (vital > vitalYellowLimit)
-        {
             return Color.red;
-        }
-        else if (vital > vitalGreenLimit) 
-        { 
-            return Color.yellowNice; 
-        }
+
+        
+        if (vital > vitalGreenLimit)
+            return Color.yellowNice;
+
+        
         return Color.green;
     }
 }

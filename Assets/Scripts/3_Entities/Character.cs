@@ -171,6 +171,7 @@ public class Character : MonoBehaviour, IDestination
     {
         IEnumerator Routine()
         {
+            vitals.LowerLoneliness();
             // Cancel navigation.
             navMeshAgent.ResetPath();
 
@@ -181,10 +182,11 @@ public class Character : MonoBehaviour, IDestination
             transform.LookAt(character.transform.position, Vector3.up);
 
             // Wait for animation to end.
-            yield return new WaitUntil(() => !characterAnimation.IsPlayingThrowAnimation());
+            yield return new WaitUntil(() => !characterAnimation.IsPlayingGreetAnimation());
 
             // Remove friend from memory.
-            
+            blackboard.LastSeenFriend = null;
+
         }
 
         StartCoroutine(Routine());

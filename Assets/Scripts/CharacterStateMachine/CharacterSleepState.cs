@@ -8,7 +8,7 @@
 
     public void Enter()
     {
-        
+        character.StateMachine.CurrentStateName = "Etat de dormir";
     }
 
     public void Update()
