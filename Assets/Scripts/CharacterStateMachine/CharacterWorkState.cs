@@ -13,7 +13,7 @@ public class CharacterWorkState : ICharacterState
     public void Enter()
     {
         workplace = character.Blackboard.Workplace;
-
+        character.StateMachine.CurrentStateName = "Travaille";
     }
 
     public void Exit()

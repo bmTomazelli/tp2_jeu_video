@@ -11,7 +11,7 @@ public class CharacterSensor : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        var trash = GetComponent<Trash>();
+        var trash = other.GetComponent<Trash>();
         var friend = other.GetComponent<Character>();
 
         var trashBehavior = character.StateMachine.TrashBehaviour;
@@ -29,7 +29,7 @@ public class CharacterSensor : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        var trash = GetComponent<Trash>();
+        var trash = other.GetComponent<Trash>();
         var friend = other.GetComponent<Character>();
 
         if (character.Blackboard.LastSeenTrash == trash)

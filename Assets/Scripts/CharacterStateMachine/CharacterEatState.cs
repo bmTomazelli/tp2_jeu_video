@@ -12,7 +12,7 @@ public class CharacterEatState : ICharacterState
 
     public void Enter()
     {
-        
+        character.StateMachine.CurrentStateName = "Etat de manger";
     }
 
     public void Update()

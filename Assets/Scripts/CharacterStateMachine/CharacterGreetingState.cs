@@ -1,27 +1,43 @@
-﻿class CharacterGreetingState : ICharacterState
+﻿
+using UnityEngine;
+
+class CharacterGreetingState : ICharacterState
 {
     private readonly Character character;
     private readonly Character friend;
-    public CharacterGreetingState(Character character)
+    private bool started;
+    public CharacterGreetingState(Character character, Character friend)
     {
         this.character = character;
-        this.friend = character.Blackboard.LastSeenFriend;
+        this.friend = friend;
     }
     public void Enter()
     {
-        
+        started = false;
+        character.StateMachine.CurrentStateName = "Etat de saluer un ami";
     }
     public void Update()
     {
-        if(friend != null)
+        if (friend == null || !friend.IsAvailable)
         {
-            if (!character.IsGreetingCharacter())
-            character.GreetCharacter(friend);
+            character.StateMachine.PopState();
+            return;
+        }
 
-            else
-            {
-                character.StateMachine.PopState();
-            }
+        
+
+        if (!started)
+        {
+            started = true;
+            character.GreetCharacter(friend);
+            return;
+        }
+
+        
+        if (!character.IsGreetingCharacter())
+        {
+            Debug.Log("Finished greeting");
+            character.StateMachine.PopState();
         }
     }
 
